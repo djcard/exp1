@@ -4,5 +4,11 @@
     },
     "JVM":{
         "javaVersion":"openjdk21_jdk"
+    },
+    "web":{
+        "host":"webclass.local",
+        "http":{
+            "port":"80"
+        }
     }
 }
