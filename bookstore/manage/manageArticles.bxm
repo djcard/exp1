@@ -1,17 +1,27 @@
-<form>
-    <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="floatingInput" placeholder="Title">
-        <label for="floatingInput">Title</label>
-      </div>
-      <div class="form-floating">
-        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
-        <label for="floatingTextarea">Body</label>
-      </div>
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-        <label class="form-check-label" for="flexCheckDefault">
-          Active
-        </label>
-      </div>
-      <button type="submit" class="btn btn-primary" style="width:100%">Save</button>
-</form>
+
+
+<bx:if form.keyExists("title")>
+  <bx:dump var="#form#" />
+  <bx:param name="form.active" default="0" />
+  <bx:set common = createObject("bookstore.common.articles") />
+  <bx:set common.saveArticle(form.title, form.body, form.active) />
+</bx:if>
+<bx:output>
+  <form action="#cgi.script_name#" method="POST">
+      <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="floatingInput" placeholder="Title" name="title">
+          <label for="floatingInput">Title</label>
+        </div>
+        <div class="form-floating">
+          <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" name="body"></textarea>
+          <label for="floatingTextarea">Body</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault" name="active">
+          <label class="form-check-label" for="flexCheckDefault">
+            Active
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%">Save</button>
+  </form>
+</bx:output>

@@ -19,9 +19,9 @@
                 }
             },
             "datasources" : {
-                "**DSOURCENAME**":{
+                "Dan_Card":{
                     "database":"${PDBNAME}",
-                    "dbdriver":"mssql",
+                    "driver":"mysql",
                     "host":"${PHOST}",
                     "password":"${PPWD}",
                     "port":"${PPORT}",

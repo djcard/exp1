@@ -3,12 +3,15 @@
         "cfengine":"boxlang"
     },
     "JVM":{
-        "javaVersion":"openjdk21_jdk"
+        "javaVersion":"openjdk21"
     },
     "web":{
         "host":"webclass.local",
         "http":{
             "port":"80"
         }
+    },
+    "scripts":{
+        "onServerInitialInstall":"install bx-mysql"
     }
 }
