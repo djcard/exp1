@@ -4,3 +4,31 @@ Exercise: Using the function in the main article as a model, write a function th
 
 <hr />
 Exercise: Can you make a form that accepts two numbers, submits it to the same page and then uses the function to add the two numbers together? All the information you need is in these docs.
+
+<bx:output>
+    <bx:if form.keyExists("first")>
+        Your answer is : #addNumbers(form.first,form.second)# <br/>
+    </bx:if>
+    <form action="#cgi.script_name#?p=#p#" method="post">
+        <div class="mb-3">
+            <label for="first" class="form-label">First</label>
+            <input type="number" class="form-control" id="first" name="first" placeholder="First">
+        </div>
+        <div class="mb-3">
+            <label for="second" class="form-label">Second</label>
+            <input type="number" class="form-control" id="second" name="second" placeholder="Last">
+        </div>
+        <div>
+            <button class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</bx:output>
+
+
+<bx:function name="addNumbers">
+    <bx:argument name="first" type="numeric"/>
+    <bx:argument name="second"  type="numeric"/>
+
+    <bx:return first + second />
+
+</bx:function>

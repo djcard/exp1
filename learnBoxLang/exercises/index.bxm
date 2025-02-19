@@ -20,6 +20,7 @@
 					<bx:try>
 						<bx:include template="#p#.bxm">
 						<bx:catch type="any">
+							MAN! You Broke it!!!!!!!
 							#bxCatch.message#
 							<bx:dump var="#bxCatch#" />
 						</bx:catch>

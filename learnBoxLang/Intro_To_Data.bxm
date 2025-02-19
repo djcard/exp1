@@ -28,7 +28,7 @@
             them are system tables and views. We&#x27;ll get into views later)</p>
     <p id="4919b4bf-1e91-4c13-8b1f-8a76484ded79" class="">Here are the fields in your books table dumped out:</p>
             <cfif application.keyExists("dsource")>
-                <cfdbinfo name="myDB" type="tables" datasource="#application.dsource#" />
+                <bx:dbinfo name="myDB" type="tables" />
 
                 <cfdump var="#myDB#">
             <cfelse>
