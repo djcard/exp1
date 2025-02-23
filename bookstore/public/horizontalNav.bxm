@@ -1,3 +1,6 @@
+<bx:set common = createObject("bookstore.common.articles") />
+<bx:set allActiveArticles = common.allArticles( status=1) />
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">
         <img src="images/rdb.png" alt="Read Dees Books Logo"/>
@@ -12,15 +15,14 @@
             <li class="nav-item active">
                 <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Store Information</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Highlighted Favorites</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Events</a>
-            </li>
+            <bx:output query="allActiveArticles">
+                <li class="nav-item">
+                    <a class="nav-link" href="#cgi.script_name#?id=#id#&t=articles">
+                        #title#
+                    </a>
+                </li>
+            </bx:output>
+
         </ul>
         <form class="d-flex">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">

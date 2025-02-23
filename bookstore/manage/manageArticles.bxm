@@ -1,28 +1,67 @@
-
+<bx:param name="id" default="-1" />
+<bx:set common = createObject("bookstore.common.articles") />
 
 <bx:if form.keyExists("title")>
-  <bx:dump var="#form#" />
   <bx:param name="form.active" default="0" />
-  <bx:set common = createObject("bookstore.common.articles") />
-  <bx:set common.saveArticle(form.title, form.body, form.active) />
+  <bx:set common.saveArticle(form.title, form.body, form.active, form.id) />
 </bx:if>
 
+<bx:set allArticles = common.allArticles() />
+
 <bx:output>
-  <form action="#cgi.script_name#" method="POST">
-      <div class="form-floating mb-3">
-          <input type="text" class="form-control" id="floatingInput" placeholder="Title" name="title">
-          <label for="floatingInput">Title</label>
-        </div>
-        <div class="form-floating">
-          <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" name="body"></textarea>
-          <label for="floatingTextarea">Body</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault" name="active">
-          <label class="form-check-label" for="flexCheckDefault">
-            Active
-          </label>
-        </div>
-        <button type="submit" class="btn btn-primary" style="width:100%">Save</button>
-  </form>
+  <div class="row">
+    <div class="col">
+      <ol>
+        <!--- Create a new article --->
+        <li> 
+          <a href="#cgi.script_name#?id=0"> 
+            Create a new Article
+          </a>
+        </li>
+
+        <!--- The articles in the database --->
+        <bx:loop query="allArticles">
+          <li> 
+            <a href="#cgi.script_name#?id=#id#"> 
+              #title#
+            </a>
+          </li>
+        </bx:loop>
+      </ol>
+    </div>
+    <div class="col">
+      <bx:if id gt -1>
+        <bx:set articleDetails = common.articleById( id ) />
+        
+        <form action="#cgi.script_name#" method="POST">
+          <input type="text" name="id" value="#isvalid('numeric',articleDetails.id) ? articleDetails.id : 0#" />
+          <div class="form-floating mb-3">
+              <input 
+                type="text" 
+                class="form-control" 
+                id="floatingInput" 
+                placeholder="Title" 
+                name="title" 
+                value="#articleDetails.title#">
+              <label for="floatingInput">Title</label>
+            </div>
+            <div class="form-floating">
+              <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" name="body">#articleDetails.description#</textarea>
+              <label for="floatingTextarea">Body</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault" name="active" #articleDetails.status==1 ? "checked" : ""#>
+              <label class="form-check-label" for="flexCheckDefault">
+                Active
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%">Save</button>
+        </form>
+      </bx:if>
+    </div>
+  </div>
+
+
+
+
 </bx:output>
