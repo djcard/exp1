@@ -9,6 +9,7 @@
     <link href="../includes/css/mycss.css" rel="stylesheet"/>
 </head>
 <body>
+    <bx:param name="t" default="manageArticles"/>
     <main id="wrapper" class="container">
         <bx:include template="../public/header.bxm" />
         <div id="horizontalnav" class="row">
@@ -16,7 +17,7 @@
         </div>
         <div id="maincontent" class="row">
             <section id="center" class="col-sm-12">
-                <bx:include template="manageArticles.bxm" />
+                <bx:include template="#t#.bxm" />
             </section>
         </div>
         <footer id="footer" class="row" style="text-align: center">

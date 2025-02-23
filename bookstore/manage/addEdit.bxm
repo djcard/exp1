@@ -1,0 +1,41 @@
+<bx:param name="book" default="" />
+<bx:set common = createObject("bookstore.common.books") />
+
+<bx:set fields = [
+    {"field":"isbn13","Label":"ISBN-13","type":"text"},
+    {"field":"isbn","Label":"ISBN-10","type":"text"},
+    {"field":"title","Label":"Title","type":"text"},
+    {"field":"weight","Label":"Weight","type":"number"},
+    {"field":"pages","Label":"Pages","type":"number"},
+    {"field":"year","Label":"Year","type":"number"}
+
+] />
+
+<bx:dump var="#form#" />
+
+<bx:if form.keyExists("isbn13")>15
+  <bx:set common.saveBooks(form.isbn13, form.title, form.isbn, form.year,form.weight, form.pages) />
+</bx:if>
+
+<bx:set allArticles = common.searchBooks() />
+
+<div class="row">
+    <div class="col-3">
+        list
+    </div>
+    <div class="col-9">
+        <bx:output>
+            <form action="#cgi.script_name#?t=addEdit" method="post">
+                <bx:loop array="#fields#" index="item">
+                    <div class="form-floating mb-3">
+                        <input type="#item.type#" class="form-control" id="#item.field#" name="#item.field#" placeholder="#item.Label#">
+                        <label for="#item.field#">#item.label#</label>
+                    </div>
+                </bx:loop>
+                <div class="form-floating mb-3">
+                    <button class="btn btn-primary" style="width:100%">Save</button>
+                </div>
+            </form>
+        </bx:output>
+    </div>
+</div>

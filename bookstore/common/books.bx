@@ -1,0 +1,17 @@
+class {
+    function searchBooks(){
+
+    }
+
+    function saveBooks(required string isbn13, required string title,string isbn, numeric year, numeric weight, numeric pages){
+        queryExecute("insert into books (isbn13, title, isbn, year, weight, pages) 
+            values (:isbn13, :title, :isbn, :year, :weight, :pages)",
+            {"isbn13":arguments.isbn13,
+                "title":arguments.title,
+                "isbn":arguments.isbn,
+                "year": arguments.year,
+                "weight":arguments.weight,
+                "pages":arguments.pages
+            })
+    }
+}
