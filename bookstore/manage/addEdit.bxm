@@ -11,31 +11,51 @@
 
 ] />
 
-<bx:dump var="#form#" />
-
 <bx:if form.keyExists("isbn13")>15
   <bx:set common.saveBooks(form.isbn13, form.title, form.isbn, form.year,form.weight, form.pages) />
 </bx:if>
 
-<bx:set allArticles = common.searchBooks() />
+<bx:set allBooks = common.searchBooks() />
 
-<div class="row">
-    <div class="col-3">
-        list
-    </div>
-    <div class="col-9">
-        <bx:output>
-            <form action="#cgi.script_name#?t=addEdit" method="post">
-                <bx:loop array="#fields#" index="item">
-                    <div class="form-floating mb-3">
-                        <input type="#item.type#" class="form-control" id="#item.field#" name="#item.field#" placeholder="#item.Label#">
-                        <label for="#item.field#">#item.label#</label>
-                    </div>
+<bx:output>
+    <div class="row">
+        <div class="col-3">
+            <ol>
+                <!--- Create a new book --->
+                <li> 
+                <a href="#cgi.script_name#?t=addEdit&id=0"> 
+                    Enter a new Book
+                </a>
+                </li>
+        
+                <!--- The books in the database --->
+                <bx:loop query="allBooks">
+                <li> 
+                    <a href="#cgi.script_name#?t=addEdit&book=#isbn13#"> 
+                    #title#
+                    </a>
+                </li>
                 </bx:loop>
-                <div class="form-floating mb-3">
-                    <button class="btn btn-primary" style="width:100%">Save</button>
-                </div>
-            </form>
-        </bx:output>
+            </ol>
+        </div>
+        <div class="col-9">
+            <bx:if book.len()>
+                <bx:set bookInfo = common.searchBooks( book )/>
+                <bx:output>
+                    <h1>#bookinfo.recordcount ? "Editing #bookinfo.title[1]#" : "New Book Entry"#</h1>
+                    <form action="#cgi.script_name#?t=addEdit" method="post">
+                        <bx:loop array="#fields#" index="item">
+                            <div class="form-floating mb-3">
+                                <input type="#item.type#" class="form-control" id="#item.field#" name="#item.field#" placeholder="#item.Label#" value="#bookInfo[item.field][1]#">
+                                <label for="#item.field#">#item.label#</label>
+                            </div>
+                        </bx:loop>
+                        <div class="form-floating mb-3">
+                            <button class="btn btn-primary" style="width:100%">Save</button>
+                        </div>
+                    </form>
+                </bx:output>
+            </bx:if>
+        </div>
     </div>
-</div>
+</bx:output>

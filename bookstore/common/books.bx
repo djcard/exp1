@@ -1,11 +1,13 @@
 class {
-    function searchBooks(){
-
+    function searchBooks( string searchTerm){
+        return queryExecute("select * from books where title like '%#arguments.searchTerm#%' or isbn13='#arguments.searchTerm#' ")
     }
 
     function saveBooks(required string isbn13, required string title,string isbn, numeric year, numeric weight, numeric pages){
         queryExecute("insert into books (isbn13, title, isbn, year, weight, pages) 
-            values (:isbn13, :title, :isbn, :year, :weight, :pages)",
+            values (:isbn13, :title, :isbn, :year, :weight, :pages)
+            ON DUPLICATE KEY UPDATE title=:title, isbn=:isbn, year=:year,weight=weight,pages=pages
+            ",
             {"isbn13":arguments.isbn13,
                 "title":arguments.title,
                 "isbn":arguments.isbn,
