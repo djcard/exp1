@@ -18,21 +18,22 @@
 <bx:set allBooks = common.searchBooks() />
 
 <bx:output>
+<h2>Manage Books</h2>
     <div class="row">
         <div class="col-3">
             <ol>
                 <!--- Create a new book --->
                 <li> 
-                <a href="#cgi.script_name#?t=addEdit&id=0"> 
-                    Enter a new Book
-                </a>
+                    <a href="#cgi.script_name#?t=addEdit&id=0"> 
+                        Enter a new Book
+                    </a>
                 </li>
         
                 <!--- The books in the database --->
                 <bx:loop query="allBooks">
                 <li> 
                     <a href="#cgi.script_name#?t=addEdit&book=#isbn13#"> 
-                    #title#
+                        #title#
                     </a>
                 </li>
                 </bx:loop>

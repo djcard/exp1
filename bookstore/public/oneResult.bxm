@@ -1,6 +1,6 @@
 <bx:output> 
     <div>Title: #bookinfo.title[1]#</div> 
-    <div>Publisher: #bookinfo.ISBN13[1]#</div> 
+    <div>ISBN-13: #bookinfo.ISBN13[1]#</div> 
     <div>Year: #bookinfo.year[1]#</div> 
     <div>Weight: #bookinfo.weight[1]#</div> 
 </bx:output>
