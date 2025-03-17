@@ -1,6 +1,8 @@
 <bx:output> 
+    <image src="/bookstore/common/images/#bookinfo.image[1]#" style="width:300px;float:left; margin:15px"/>
     <div>Title: #bookinfo.title[1]#</div> 
     <div>ISBN-13: #bookinfo.ISBN13[1]#</div> 
     <div>Year: #bookinfo.year[1]#</div> 
-    <div>Weight: #bookinfo.weight[1]#</div> 
+    <div>Weight: #bookinfo.weight[1]#</div>
+    <div>Description: #bookinfo.description[1]#</div> 
 </bx:output>

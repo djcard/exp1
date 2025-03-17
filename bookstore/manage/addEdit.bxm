@@ -10,14 +10,19 @@
     {"field":"year","Label":"Year","type":"number"}
 
 ] />
-
-<bx:if form.keyExists("isbn13")>15
-  <bx:set common.saveBooks(form.isbn13, form.title, form.isbn, form.year,form.weight, form.pages) />
+<bx:output>
+<bx:if form.keyExists("isbn13")>
+    <bx:if form.keyExists("uploadImage") && form.uploadImage.len()>
+        <bx:set fileInfo = common.uploadFile("uploadImage") />
+        <bx:dump var="#fileInfo#" />
+        <bx:set form.image="#fileInfo.serverFileName#" />
+    </bx:if>
+  <bx:set common.saveBooks(form.isbn13, form.title, form.isbn, form.year,form.weight, form.pages, form.description,form.image, form.publisherId) />
 </bx:if>
 
 <bx:set allBooks = common.searchBooks() />
 
-<bx:output>
+
 <h2>Manage Books</h2>
     <div class="row">
         <div class="col-3">
@@ -41,16 +46,45 @@
         </div>
         <div class="col-9">
             <bx:if book.len()>
+                <bx:set allPublishers = common.allPublishers()>
                 <bx:set bookInfo = common.searchBooks( book )/>
                 <bx:output>
                     <h1>#bookinfo.recordcount ? "Editing #bookinfo.title[1]#" : "New Book Entry"#</h1>
-                    <form action="#cgi.script_name#?t=addEdit" method="post">
+                    <form action="#cgi.script_name#?t=addEdit" method="post" enctype="multipart/form-data">
                         <bx:loop array="#fields#" index="item">
                             <div class="form-floating mb-3">
                                 <input type="#item.type#" class="form-control" id="#item.field#" name="#item.field#" placeholder="#item.Label#" value="#bookInfo[item.field][1]#">
                                 <label for="#item.field#">#item.label#</label>
                             </div>
                         </bx:loop>
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="publisher" name="publisherId" aria-label="Publisher Select Control">
+                                <option ></option>
+                                <bx:loop query="allPublishers">
+                                    <bx:set ch = #id == bookinfo.publisherId ? "selected" : ""# />
+                                    <option value="#id#" #ch#>#name#</option>
+                                </bx:loop>
+                            </select>
+                            <label for="publisher">Publisher</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <textarea id="description" name="description" class="form-control" >
+                                #bookinfo.description#
+                            </textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <img src="/bookstore/common/images/#bookinfo.image[1]#" style="width:150px" />
+                            </div>
+                            <div class="col-6">
+                                <label for="uploadImage">Upload Cover</label>
+                                <div class="input-group mb-3">    
+                                    <input type="file" id="uploadImage" name="uploadimage" class="form-control" />    
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="image" value="#bookInfo.image[1]#" >
+                        
                         <div class="form-floating mb-3">
                             <button class="btn btn-primary" style="width:100%">Save</button>
                         </div>
@@ -60,3 +94,25 @@
         </div>
     </div>
 </bx:output>
+<script type="text/javascript">
+    const {
+        ClassicEditor,
+        Essentials,
+        Bold,
+        Italic,
+        Font,
+        Paragraph
+    } = CKEDITOR;
+
+    ClassicEditor
+        .create( document.querySelector( '#description' ), {
+            licenseKey: 'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NzI0OTU5OTksImp0aSI6Ijc4MDg3NTkwLTdlZjgtNDUwNy04YjU1LWIwOWM3NWI5MTAyNSIsImxpY2Vuc2VkSG9zdHMiOlsiMTI3LjAuMC4xIiwibG9jYWxob3N0IiwiMTkyLjE2OC4qLioiLCIxMC4qLiouKiIsIjE3Mi4qLiouKiIsIioudGVzdCIsIioubG9jYWxob3N0IiwiKi5sb2NhbCJdLCJ1c2FnZUVuZHBvaW50IjoiaHR0cHM6Ly9wcm94eS1ldmVudC5ja2VkaXRvci5jb20iLCJkaXN0cmlidXRpb25DaGFubmVsIjpbImNsb3VkIiwiZHJ1cGFsIl0sImxpY2Vuc2VUeXBlIjoiZGV2ZWxvcG1lbnQiLCJmZWF0dXJlcyI6WyJEUlVQIl0sInZjIjoiMGM1YWFlMTgifQ.gCyEA1lj6PfgPt0AkhMdHHbjPMEbl3ExTBS-WatA7QWOGy8e6viS4M8GsIv4E93wrAXonr8yWL7rP0tC976qKw',
+            plugins: [ Essentials, Bold, Italic, Font, Paragraph ],
+            toolbar: [
+                'undo', 'redo', '|', 'bold', 'italic', '|',
+                'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
+            ]
+        } )
+        .then( /* ... */ )
+        .catch( /* ... */ );
+</script>
